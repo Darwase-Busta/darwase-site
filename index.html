@@ -19,8 +19,8 @@
 
   <style>
     :root {
-      --background-dark: #07000d;
-      --background-purple: #1b0038;
+      --bg-dark: #07000d;
+      --bg-purple: #1b0038;
 
       --purple: #b23cff;
       --pink: #ff3ec9;
@@ -46,15 +46,17 @@
     html {
       min-height: 100%;
       scroll-behavior: smooth;
-      background: var(--background-dark);
+      background: var(--bg-dark);
     }
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
+
       margin: 0;
 
       color: var(--text);
-      background: var(--background-dark);
+      background: var(--bg-dark);
 
       font-family:
         Inter,
@@ -68,14 +70,20 @@
       isolation: isolate;
     }
 
-    /* ------------------------------
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* =====================================
        FULL-PAGE VAPORWAVE BACKGROUND
-    ------------------------------ */
+    ===================================== */
 
     .vapor-background {
       position: fixed;
       inset: 0;
       z-index: 0;
+
       overflow: hidden;
       pointer-events: none;
 
@@ -93,7 +101,7 @@
         ),
         radial-gradient(
           circle at 90% 55%,
-          rgba(39, 230, 255, 0.20),
+          rgba(39, 230, 255, 0.2),
           transparent 42%
         ),
         linear-gradient(
@@ -105,10 +113,9 @@
         );
     }
 
-    /* Flat grid covering the full screen */
-
     .vapor-background::before {
       content: "";
+
       position: absolute;
       inset: 0;
 
@@ -125,37 +132,44 @@
 
       background-size: 48px 48px;
 
+      -webkit-mask-image:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.9),
+          rgba(0, 0, 0, 0.45)
+        );
+
       mask-image:
         linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.92),
-          rgba(0, 0, 0, 0.55)
+          rgba(0, 0, 0, 0.9),
+          rgba(0, 0, 0, 0.45)
         );
 
       animation: backgroundGrid 18s linear infinite;
     }
 
-    /* Perspective grid near the bottom */
-
     .floor-grid {
       position: absolute;
-      left: -30%;
-      right: -30%;
+
+      left: -35%;
+      right: -35%;
       bottom: -42vh;
-      height: 92vh;
+
+      height: 100vh;
 
       background-image:
         linear-gradient(
-          rgba(255, 62, 201, 0.34) 2px,
+          rgba(255, 62, 201, 0.4) 2px,
           transparent 2px
         ),
         linear-gradient(
           90deg,
-          rgba(39, 230, 255, 0.25) 2px,
+          rgba(39, 230, 255, 0.3) 2px,
           transparent 2px
         );
 
-      background-size: 72px 72px;
+      background-size: 74px 74px;
 
       transform:
         perspective(650px)
@@ -164,48 +178,61 @@
       transform-origin: center top;
 
       filter:
-        drop-shadow(0 0 8px rgba(255, 62, 201, 0.32));
+        drop-shadow(
+          0 0 8px
+          rgba(255, 62, 201, 0.36)
+        );
 
       animation: floorMovement 10s linear infinite;
     }
 
-    /* Floating colour clouds */
-
     .glow {
       position: absolute;
+
       border-radius: 50%;
       filter: blur(90px);
+
       opacity: 0.36;
     }
 
     .glow-one {
       width: 420px;
       height: 420px;
+
       top: 8%;
       left: -120px;
+
       background: var(--pink);
-      animation: floatOne 13s ease-in-out infinite alternate;
+
+      animation:
+        floatOne 13s ease-in-out infinite alternate;
     }
 
     .glow-two {
       width: 480px;
       height: 480px;
+
       top: 24%;
       right: -170px;
+
       background: var(--cyan);
-      animation: floatTwo 16s ease-in-out infinite alternate;
+
+      animation:
+        floatTwo 16s ease-in-out infinite alternate;
     }
 
     .glow-three {
       width: 350px;
       height: 350px;
+
       bottom: -90px;
       left: 35%;
-      background: var(--purple);
-      animation: floatThree 11s ease-in-out infinite alternate;
-    }
 
-    /* Subtle CRT scanlines */
+      background: var(--purple);
+
+      animation:
+        floatThree 11s ease-in-out infinite alternate;
+    }
 
     .scanlines {
       position: absolute;
@@ -223,9 +250,9 @@
       mix-blend-mode: overlay;
     }
 
-    /* ------------------------------
-       PAGE LAYOUT
-    ------------------------------ */
+    /* =====================================
+       PAGE
+    ===================================== */
 
     .site {
       position: relative;
@@ -233,37 +260,43 @@
 
       width: min(1200px, 100%);
       min-height: 100vh;
+      min-height: 100dvh;
 
       margin: 0 auto;
+
       padding:
         clamp(14px, 3vw, 36px)
         clamp(12px, 3vw, 28px)
-        30px;
+        36px;
     }
 
-    /* ------------------------------
+    /* =====================================
        HERO
-    ------------------------------ */
+    ===================================== */
 
     .hero-stage {
+      position: relative;
+
+      display: grid;
+      place-items: center;
+
+      min-height: clamp(500px, 62vw, 720px);
+      margin-bottom: clamp(8px, 1.5vw, 20px);
+
       perspective: 1400px;
-      margin-bottom: 16px;
     }
 
-    .hero {
+    .logo-scene {
       --rotate-x: 0deg;
       --rotate-y: 0deg;
+      --lift: 0px;
       --mouse-x: 50%;
       --mouse-y: 50%;
-      --lift: 0px;
 
       position: relative;
-      overflow: hidden;
 
-      border: 1px solid rgba(199, 125, 255, 0.55);
-      border-radius: 24px;
-
-      background: #07000c;
+      width: min(1050px, 98%);
+      height: clamp(460px, 58vw, 660px);
 
       transform-style: preserve-3d;
 
@@ -273,72 +306,195 @@
         rotateY(var(--rotate-y))
         translateY(var(--lift));
 
-      box-shadow:
-        0 28px 70px rgba(0, 0, 0, 0.58),
-        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-        0 0 36px rgba(178, 60, 255, 0.22),
-        -12px 0 35px rgba(39, 230, 255, 0.10),
-        12px 0 35px rgba(255, 62, 201, 0.12);
-
       transition:
         transform 180ms ease-out,
-        box-shadow 250ms ease;
+        filter 250ms ease;
     }
 
-    .hero:hover {
-      --lift: -5px;
-
-      box-shadow:
-        0 35px 90px rgba(0, 0, 0, 0.64),
-        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-        0 0 45px rgba(178, 60, 255, 0.32),
-        -14px 0 38px rgba(39, 230, 255, 0.18),
-        14px 0 42px rgba(255, 62, 201, 0.20);
+    .logo-scene:hover {
+      --lift: -7px;
     }
 
-    .hero img {
-      display: block;
-      width: 100%;
-      height: auto;
-
-      transform: translateZ(24px) scale(1.002);
-    }
-
-    /* Moving shine following the cursor */
-
-    .hero::after,
-    .menu a::after {
+    .logo-scene::before {
       content: "";
-      position: absolute;
-      inset: 0;
 
-      border-radius: inherit;
+      position: absolute;
+      inset: 4%;
+
+      z-index: 5;
+
+      pointer-events: none;
+      border-radius: 50%;
 
       background:
         radial-gradient(
           circle at var(--mouse-x) var(--mouse-y),
-          rgba(255, 255, 255, 0.18),
-          rgba(255, 255, 255, 0.04) 18%,
-          transparent 43%
+          rgba(255, 255, 255, 0.16),
+          rgba(255, 255, 255, 0.035) 20%,
+          transparent 46%
         );
 
       opacity: 0;
-      pointer-events: none;
+
       transition: opacity 220ms ease;
     }
 
-    .hero:hover::after,
-    .menu a:hover::after {
+    .logo-scene:hover::before {
       opacity: 1;
     }
 
-    /* ------------------------------
+    /* Glow behind the whole logo */
+
+    .logo-glow {
+      position: absolute;
+      z-index: 0;
+
+      left: 50%;
+      top: 8%;
+
+      width: 76%;
+      height: 78%;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255, 62, 201, 0.44) 0%,
+          rgba(178, 60, 255, 0.24) 35%,
+          rgba(39, 230, 255, 0.13) 53%,
+          transparent 73%
+        );
+
+      filter: blur(42px);
+
+      transform:
+        translateX(-50%)
+        translateZ(-50px);
+
+      animation:
+        logoGlowPulse 4s ease-in-out infinite;
+    }
+
+    /* Sun on top */
+
+    .logo-sun {
+      position: absolute;
+
+      z-index: 1;
+
+      top: 1%;
+      left: 50%;
+
+      width: clamp(190px, 31%, 330px);
+      aspect-ratio: 1;
+
+      border-radius: 50%;
+
+      transform:
+        translateX(-50%)
+        translateZ(10px);
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 18px,
+          rgba(51, 0, 74, 0.8) 19px,
+          rgba(51, 0, 74, 0.8) 25px
+        ),
+        linear-gradient(
+          180deg,
+          #ffe45c 0%,
+          #ff7a68 35%,
+          #ff3ec9 70%,
+          #b23cff 100%
+        );
+
+      box-shadow:
+        0 0 18px rgba(255, 62, 201, 0.95),
+        0 0 45px rgba(255, 62, 201, 0.6),
+        0 0 80px rgba(178, 60, 255, 0.35);
+
+      animation:
+        sunPulse 4.5s ease-in-out infinite;
+    }
+
+    /* DARWASE placed below the sun */
+
+    .darwase-wordmark {
+      position: absolute;
+
+      z-index: 3;
+
+      top: 27%;
+      left: 55%;
+
+      width: 96%;
+      height: auto;
+
+      transform:
+        translateX(-50%)
+        translateZ(75px);
+
+      filter:
+        drop-shadow(
+          0 24px 20px
+          rgba(0, 0, 0, 0.55)
+        )
+        drop-shadow(
+          0 0 11px
+          rgba(39, 230, 255, 0.6)
+        )
+        drop-shadow(
+          0 0 24px
+          rgba(255, 62, 201, 0.52)
+        );
+
+      animation:
+        wordmarkFloat 5s ease-in-out infinite;
+    }
+
+    .logo-reflection {
+      position: absolute;
+
+      z-index: 1;
+
+      left: 10%;
+      right: 10%;
+      bottom: -1%;
+
+      height: 18%;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255, 62, 201, 0.2),
+          rgba(39, 230, 255, 0.09),
+          transparent 82%
+        );
+
+      filter: blur(17px);
+
+      transform:
+        translateZ(10px)
+        perspective(500px)
+        rotateX(66deg);
+
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    /* =====================================
        MENU
-    ------------------------------ */
+    ===================================== */
 
     .menu {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 13px;
     }
 
@@ -364,7 +520,10 @@
       color: var(--text);
       text-decoration: none;
 
-      border: 1px solid var(--border);
+      border:
+        1px solid
+        var(--border);
+
       border-radius: 18px;
 
       background: var(--panel);
@@ -383,7 +542,7 @@
       box-shadow:
         0 16px 34px rgba(0, 0, 0, 0.32),
         0 0 0 1px rgba(255, 255, 255, 0.035) inset,
-        0 0 22px rgba(178, 60, 255, 0.10);
+        0 0 22px rgba(178, 60, 255, 0.1);
 
       transition:
         transform 180ms ease-out,
@@ -392,14 +551,15 @@
         background 220ms ease;
     }
 
-    /* Bright neon strip */
-
     .menu a::before {
       content: "";
+
       position: absolute;
+
       top: 0;
       left: 12%;
       right: 12%;
+
       height: 1px;
 
       background:
@@ -411,17 +571,44 @@
           transparent
         );
 
-      opacity: 0.65;
+      opacity: 0.7;
 
       box-shadow:
         0 0 10px var(--cyan),
         0 0 14px var(--pink);
     }
 
+    .menu a::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      border-radius: inherit;
+
+      background:
+        radial-gradient(
+          circle at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.18),
+          rgba(255, 255, 255, 0.04) 18%,
+          transparent 43%
+        );
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity 220ms ease;
+    }
+
+    .menu a:hover::after {
+      opacity: 1;
+    }
+
     .menu a:hover {
       --lift: -8px;
 
-      border-color: rgba(39, 230, 255, 0.88);
+      border-color:
+        rgba(39, 230, 255, 0.88);
 
       background:
         linear-gradient(
@@ -443,9 +630,14 @@
     }
 
     .number,
-    .label {
+    .label,
+    .menu-arrow {
       position: relative;
       z-index: 2;
+    }
+
+    .number,
+    .label {
       transform: translateZ(28px);
     }
 
@@ -453,7 +645,7 @@
       color: var(--cyan);
 
       font:
-        700 12px/1
+        700 12px/1.15
         ui-monospace,
         SFMono-Regular,
         Menlo,
@@ -461,32 +653,39 @@
         Consolas,
         monospace;
 
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
 
       text-shadow:
-        0 0 8px rgba(39, 230, 255, 0.65);
+        0 0 8px
+        rgba(39, 230, 255, 0.65);
     }
 
     .label {
-      font-size: clamp(16px, 1.5vw, 22px);
+      font-size:
+        clamp(16px, 1.5vw, 22px);
+
       font-weight: 750;
       letter-spacing: -0.025em;
 
       text-shadow:
-        0 0 16px rgba(255, 62, 201, 0.15);
+        0 0 16px
+        rgba(255, 62, 201, 0.15);
     }
 
     .menu-arrow {
       position: absolute;
+
       right: 17px;
       bottom: 16px;
-      z-index: 2;
 
       color: var(--pink);
       font-size: 20px;
 
       opacity: 0;
-      transform: translateX(-8px) translateZ(30px);
+
+      transform:
+        translateX(-8px)
+        translateZ(30px);
 
       transition:
         opacity 200ms ease,
@@ -495,12 +694,15 @@
 
     .menu a:hover .menu-arrow {
       opacity: 1;
-      transform: translateX(0) translateZ(30px);
+
+      transform:
+        translateX(0)
+        translateZ(30px);
     }
 
-    /* ------------------------------
+    /* =====================================
        STATUS
-    ------------------------------ */
+    ===================================== */
 
     .status {
       width: fit-content;
@@ -512,10 +714,14 @@
       text-align: center;
       color: var(--muted);
 
-      border: 1px solid rgba(190, 120, 255, 0.18);
+      border:
+        1px solid
+        rgba(190, 120, 255, 0.18);
+
       border-radius: 999px;
 
-      background: rgba(11, 0, 23, 0.42);
+      background:
+        rgba(11, 0, 23, 0.48);
 
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -532,11 +738,13 @@
       letter-spacing: 0.1em;
 
       box-shadow:
-        0 0 20px rgba(178, 60, 255, 0.08);
+        0 0 20px
+        rgba(178, 60, 255, 0.08);
     }
 
     .status::before {
       content: "";
+
       display: inline-block;
 
       width: 7px;
@@ -545,66 +753,130 @@
       margin-right: 9px;
 
       border-radius: 50%;
+
       background: var(--cyan);
 
       box-shadow:
         0 0 8px var(--cyan),
         0 0 16px var(--cyan);
 
-      animation: statusPulse 1.8s ease-in-out infinite;
+      animation:
+        statusPulse 1.8s
+        ease-in-out infinite;
     }
 
-    /* ------------------------------
+    /* =====================================
        ANIMATIONS
-    ------------------------------ */
+    ===================================== */
 
     @keyframes backgroundGrid {
       from {
-        background-position: 0 0, 0 0;
+        background-position:
+          0 0,
+          0 0;
       }
 
       to {
-        background-position: 48px 48px, 48px 48px;
+        background-position:
+          48px 48px,
+          48px 48px;
       }
     }
 
     @keyframes floorMovement {
       from {
-        background-position: 0 0, 0 0;
+        background-position:
+          0 0,
+          0 0;
       }
 
       to {
-        background-position: 0 72px, 72px 0;
+        background-position:
+          0 74px,
+          74px 0;
       }
     }
 
     @keyframes floatOne {
       from {
-        transform: translate3d(0, 0, 0) scale(1);
+        transform:
+          translate3d(0, 0, 0)
+          scale(1);
       }
 
       to {
-        transform: translate3d(100px, 70px, 0) scale(1.2);
+        transform:
+          translate3d(100px, 70px, 0)
+          scale(1.2);
       }
     }
 
     @keyframes floatTwo {
       from {
-        transform: translate3d(0, 0, 0) scale(1.1);
+        transform:
+          translate3d(0, 0, 0)
+          scale(1.1);
       }
 
       to {
-        transform: translate3d(-100px, 90px, 0) scale(0.9);
+        transform:
+          translate3d(-100px, 90px, 0)
+          scale(0.9);
       }
     }
 
     @keyframes floatThree {
       from {
-        transform: translate3d(-40px, 0, 0);
+        transform:
+          translate3d(-40px, 0, 0);
       }
 
       to {
-        transform: translate3d(80px, -100px, 0);
+        transform:
+          translate3d(80px, -100px, 0);
+      }
+    }
+
+    @keyframes wordmarkFloat {
+      0%,
+      100% {
+        margin-top: 0;
+      }
+
+      50% {
+        margin-top: -7px;
+      }
+    }
+
+    @keyframes logoGlowPulse {
+      0%,
+      100% {
+        opacity: 0.65;
+
+        transform:
+          translateX(-50%)
+          translateZ(-50px)
+          scale(0.96);
+      }
+
+      50% {
+        opacity: 1;
+
+        transform:
+          translateX(-50%)
+          translateZ(-50px)
+          scale(1.06);
+      }
+    }
+
+    @keyframes sunPulse {
+      0%,
+      100% {
+        filter: brightness(0.95);
+      }
+
+      50% {
+        filter: brightness(1.15);
       }
     }
 
@@ -621,34 +893,55 @@
       }
     }
 
-    /* ------------------------------
+    /* =====================================
        TABLET
-    ------------------------------ */
+    ===================================== */
 
     @media (max-width: 780px) {
       .site {
-        padding: 12px 10px 28px;
+        padding:
+          12px
+          10px
+          28px;
       }
 
-      .hero {
-        border-radius: 16px;
+      .hero-stage {
+        min-height: 540px;
+      }
+
+      .logo-scene {
+        width: 100%;
+        height: 510px;
+      }
+
+      .logo-sun {
+        top: 4%;
+        width: clamp(190px, 39%, 270px);
+      }
+
+      .darwase-wordmark {
+        top: 38%;
+        width: 100%;
       }
 
       .menu {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+          1fr 1fr;
+
         gap: 10px;
       }
 
       .menu a {
-        min-height: 95px;
+        min-height: 96px;
         padding: 15px;
+
         border-radius: 16px;
       }
     }
 
-    /* ------------------------------
+    /* =====================================
        MOBILE
-    ------------------------------ */
+    ===================================== */
 
     @media (max-width: 480px) {
       .site {
@@ -657,10 +950,37 @@
             10px,
             env(safe-area-inset-top)
           );
+
+        padding-bottom:
+          max(
+            26px,
+            env(safe-area-inset-bottom)
+          );
       }
 
       .hero-stage {
-        margin-bottom: 18px;
+        min-height: 415px;
+        margin-bottom: 8px;
+      }
+
+      .logo-scene {
+        width: 112%;
+        height: 395px;
+      }
+
+      .logo-sun {
+        top: 3%;
+        width: 47%;
+        max-width: 190px;
+      }
+
+      .darwase-wordmark {
+        top: 39%;
+        width: 105%;
+      }
+
+      .logo-reflection {
+        bottom: 0;
       }
 
       .menu {
@@ -684,6 +1004,7 @@
 
       .status {
         width: 95%;
+
         font-size: 10px;
         border-radius: 16px;
       }
@@ -693,16 +1014,24 @@
       }
     }
 
-    /* Disable heavy movement for accessibility */
+    /* =====================================
+       ACCESSIBILITY
+    ===================================== */
 
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
         scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+
+        animation-duration:
+          0.01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          0.01ms !important;
       }
     }
   </style>
@@ -710,27 +1039,49 @@
 
 <body>
 
-  <!-- Full-screen coded vaporwave background -->
-  <div class="vapor-background" aria-hidden="true">
+  <div
+    class="vapor-background"
+    aria-hidden="true"
+  >
     <div class="glow glow-one"></div>
     <div class="glow glow-two"></div>
     <div class="glow glow-three"></div>
+
     <div class="floor-grid"></div>
     <div class="scanlines"></div>
   </div>
 
   <main class="site">
 
-    <div class="hero-stage">
-      <section class="hero tilt-element" data-tilt-strength="7">
-        <img
-          src="darwase-hero.png"
-          alt="Darwase neon synthwave artwork"
-        >
-      </section>
-    </div>
+    <section class="hero-stage">
 
-    <nav class="menu" aria-label="Darwase sections">
+      <div
+        class="logo-scene tilt-element"
+        data-tilt-strength="7"
+        aria-label="Darwase"
+      >
+        <div class="logo-glow"></div>
+
+        <div class="logo-sun"></div>
+
+        <img
+          class="darwase-wordmark"
+          src="./darwase-wordmark-final.png"
+          alt="Darwase"
+        >
+
+        <div
+          class="logo-reflection"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+    </section>
+
+    <nav
+      class="menu"
+      aria-label="Darwase sections"
+    >
 
       <a
         href="#about"
@@ -738,9 +1089,20 @@
         data-tilt-strength="8"
         data-section="About Me"
       >
-        <span class="number">00 // PROFILE.EXE</span>
-        <span class="label">About Me</span>
-        <span class="menu-arrow" aria-hidden="true">↗</span>
+        <span class="number">
+          00 // PROFILE.EXE
+        </span>
+
+        <span class="label">
+          About Me
+        </span>
+
+        <span
+          class="menu-arrow"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
       </a>
 
       <a
@@ -749,9 +1111,20 @@
         data-tilt-strength="8"
         data-section="Islamic Discovery"
       >
-        <span class="number">01 // DISCOVERY.EXE</span>
-        <span class="label">Islamic Discovery</span>
-        <span class="menu-arrow" aria-hidden="true">↗</span>
+        <span class="number">
+          01 // DISCOVERY.EXE
+        </span>
+
+        <span class="label">
+          Islamic Discovery
+        </span>
+
+        <span
+          class="menu-arrow"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
       </a>
 
       <a
@@ -760,9 +1133,20 @@
         data-tilt-strength="8"
         data-section="Free Prompts"
       >
-        <span class="number">02 // PROMPTS.EXE</span>
-        <span class="label">Free Prompts</span>
-        <span class="menu-arrow" aria-hidden="true">↗</span>
+        <span class="number">
+          02 // PROMPTS.EXE
+        </span>
+
+        <span class="label">
+          Free Prompts
+        </span>
+
+        <span
+          class="menu-arrow"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
       </a>
 
       <a
@@ -771,14 +1155,29 @@
         data-tilt-strength="8"
         data-section="Labs"
       >
-        <span class="number">03 // LABS.EXE</span>
-        <span class="label">Labs</span>
-        <span class="menu-arrow" aria-hidden="true">↗</span>
+        <span class="number">
+          03 // LABS.EXE
+        </span>
+
+        <span class="label">
+          Labs
+        </span>
+
+        <span
+          class="menu-arrow"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
       </a>
 
     </nav>
 
-    <p class="status" id="status" aria-live="polite">
+    <p
+      class="status"
+      id="status"
+      aria-live="polite"
+    >
       DARWASE / SYSTEM ACTIVE / MORE COMING SOON
     </p>
 
@@ -793,34 +1192,31 @@
 
     let statusTimer;
 
-    /*
-      Menu click behaviour
-    */
+    document
+      .querySelectorAll(".menu a")
+      .forEach((link) => {
+        link.addEventListener(
+          "click",
+          (event) => {
+            event.preventDefault();
 
-    document.querySelectorAll(".menu a").forEach((link) => {
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
+            const sectionName =
+              link.dataset.section ||
+              "SECTION";
 
-        const sectionName =
-          link.dataset.section || "SECTION";
+            clearTimeout(statusTimer);
 
-        clearTimeout(statusTimer);
+            statusMessage.textContent =
+              `${sectionName.toUpperCase()} / UNDER CONSTRUCTION`;
 
-        statusMessage.textContent =
-          `${sectionName.toUpperCase()} / UNDER CONSTRUCTION`;
-
-        statusTimer = setTimeout(() => {
-          statusMessage.textContent = defaultStatus;
-        }, 1800);
+            statusTimer =
+              setTimeout(() => {
+                statusMessage.textContent =
+                  defaultStatus;
+              }, 1800);
+          }
+        );
       });
-    });
-
-    /*
-      Real mouse-controlled 3D tilt.
-
-      Disabled automatically for touch devices
-      and reduced-motion users.
-    */
 
     const supportsHover =
       window.matchMedia(
@@ -832,12 +1228,17 @@
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
-    if (supportsHover && !reducedMotion) {
+    if (
+      supportsHover &&
+      !reducedMotion
+    ) {
       document
         .querySelectorAll(".tilt-element")
         .forEach((element) => {
           const strength =
-            Number(element.dataset.tiltStrength) || 6;
+            Number(
+              element.dataset.tiltStrength
+            ) || 6;
 
           element.addEventListener(
             "pointermove",
@@ -846,22 +1247,28 @@
                 element.getBoundingClientRect();
 
               const mouseX =
-                event.clientX - rectangle.left;
+                event.clientX -
+                rectangle.left;
 
               const mouseY =
-                event.clientY - rectangle.top;
+                event.clientY -
+                rectangle.top;
 
               const percentageX =
-                mouseX / rectangle.width;
+                mouseX /
+                rectangle.width;
 
               const percentageY =
-                mouseY / rectangle.height;
+                mouseY /
+                rectangle.height;
 
               const rotateY =
-                (percentageX - 0.5) * strength;
+                (percentageX - 0.5) *
+                strength;
 
               const rotateX =
-                (0.5 - percentageY) * strength;
+                (0.5 - percentageY) *
+                strength;
 
               element.style.setProperty(
                 "--rotate-x",
